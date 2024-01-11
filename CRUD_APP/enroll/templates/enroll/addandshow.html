@@ -1,0 +1,61 @@
+{% extends 'enroll/base.html' %}
+
+{% block title %}Add and Show Info{% endblock title %}
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-4">
+        <h4 class="text-center alert alert-primary">Add Student Info</h4>
+        <form action="" method="post">{% csrf_token %}
+            {{form.as_p}}
+            <input type="submit" value="Submit" class="btn btn-outline-primary">
+        </form>
+    </div>
+
+    <div class="col-sm-7 offset-1">
+        <h4 class="text-center alert alert-primary">Student Information</h4>
+        {% if stud %}
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">NAME</th>
+                <th scope="col">EMAIL</th>
+                <th scope="col">PASSWORD</th>
+                <th scope="col">ACTION</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for stu in stud %}
+            <tr>
+                <th scope="row">{{stu.id}}</th>
+                <td>{{stu.name}}</td>
+                <td>{{stu.email}}</td>
+                <td>{{stu.password}}</td>
+                <td><a href="{% url 'updatedata' stu.id %}" class="btn btn-outline-warning">Update</a>
+                    <form action="{% url 'deletedata' stu.id %}" method="POST" class="d-inline">{% csrf_token %}
+                        <input class="btn btn-outline-danger" type="submit" value="Delete">
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <h5 class="text-center alert alert-danger">No Records Found!</h5>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock content %}
+```
+<!-- Floating Menu Example:
+    div class="form-floating mb-3">
+    <select class="form-select" id="floatingSelect">
+        <option selected>Select Option</option>
+        <option value="1" href="{% url 'addandshow' %}">Add Student Info</option>
+        <option value="2" href="">Update Student Info</option>
+        <option value="3" href="">Delete Student Info</option>
+    </select>
+    <label for="floatingSelect">Select Option</label>
+-->
